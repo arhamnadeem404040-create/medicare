@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MediClear: Know before you pay</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500..800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f5fb;--card:#fff;--ink:#15163a;--muted:#5d5f80;--line:#dfdeee;--brand:#3a3d9e;--tint:#ecebf8;--fair:#1d7a55;--fairs:#dff1e8;--warn:#9a5c00;--warns:#faeed3;--bad:#b3392d;--bads:#fae3df;--gold:#b8893a;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0c0d24;--card:#14163a;--ink:#ecebfa;--muted:#a2a4cc;--line:#272a5c;--brand:#9a9dff;--tint:#1b1d4d;--fair:#5fd3a0;--fairs:#12372b;--warn:#f0b960;--warns:#3b2e14;--bad:#f4968a;--bads:#40211d;--gold:#e3b866}}
+:root[data-theme="dark"]{--bg:#0c0d24;--card:#14163a;--ink:#ecebfa;--muted:#a2a4cc;--line:#272a5c;--brand:#9a9dff;--tint:#1b1d4d;--fair:#5fd3a0;--fairs:#12372b;--warn:#f0b960;--warns:#3b2e14;--bad:#f4968a;--bads:#40211d;--gold:#e3b866}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px);scroll-behavior:smooth}
+*,*:before,*:after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.55 "Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif}
+h1,h2,h3{font-family:"Fraunces",Georgia,serif;margin:0;line-height:1.1}
+a{color:inherit}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;gap:20px;height:56px;overflow-x:auto;white-space:nowrap}
+.logo{font:800 21px "Fraunces",Georgia,serif;color:var(--brand);text-decoration:none;margin-right:auto}
+nav a:not(.logo){text-decoration:none;font-size:15px;color:var(--muted)}
+nav a:not(.logo):hover{color:var(--ink)}
+.hero{display:grid;gap:36px;padding:44px 0 20px;align-items:start}
+@media(min-width:880px){.hero{grid-template-columns:1fr 1.05fr;padding-top:64px}}
+h1{font-size:clamp(38px,6.4vw,66px);font-weight:800;letter-spacing:-.03em}
+.lead{font-size:19px;color:var(--muted);max-width:46ch;margin:18px 0 0}
+.stats{display:flex;gap:26px;margin-top:26px;flex-wrap:wrap;font-size:15px;color:var(--muted)}
+.stats b{display:block;font:700 22px "Fraunces",Georgia,serif;color:var(--ink)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px}
+label{display:block;font-size:14px;color:var(--muted);margin:0 0 4px}
+select,input,button{font:inherit;color:var(--ink)}
+select,input{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg)}
+select:focus-visible,input:focus-visible,button:focus-visible,summary:focus-visible,a:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+.row{display:grid;gap:12px;grid-template-columns:1fr 1fr;margin-bottom:14px}
+.bench{font-size:14px;color:var(--muted);margin:2px 0 12px}
+.c{padding:12px 0;border-top:1px solid var(--line)}
+.c .top{display:flex;justify-content:space-between;gap:10px;align-items:baseline;flex-wrap:wrap}
+.c b{font-weight:600}.c .meta{font-size:14px;color:var(--muted)}
+.bar{height:8px;border-radius:4px;background:var(--tint);margin-top:8px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:4px}
+.tag{display:inline-block;padding:1px 10px;border-radius:99px;font-weight:600;font-size:13.5px;white-space:nowrap}
+.fair{background:var(--fairs);color:var(--fair)}.above{background:var(--warns);color:var(--warn)}.high{background:var(--bads);color:var(--bad)}
+.bar .fair{background:var(--fair)}.bar .above{background:var(--warn)}.bar .high{background:var(--bad)}
+section{padding:64px 0 8px}
+h2{font-size:clamp(28px,4.4vw,40px);font-weight:700;letter-spacing:-.02em}
+.intro{color:var(--muted);max-width:58ch;margin:10px 0 24px}
+.two{display:grid;gap:24px}
+@media(min-width:880px){.two{grid-template-columns:1fr 1fr}}
+.items .r{display:grid;grid-template-columns:1fr 100px 34px;gap:8px;margin-bottom:8px}
+button{cursor:pointer;border:1px solid var(--line);background:var(--card);border-radius:8px;padding:9px 14px}
+button.p{background:var(--brand);border-color:var(--brand);color:var(--bg);font-weight:600}
+.sum{font-size:15px;color:var(--muted)}
+.out{display:grid;grid-template-columns:1fr auto auto;gap:4px 12px;font-size:15.5px;align-items:center}
+.out>div{padding:8px 0;border-top:1px solid var(--line)}
+.out .n{text-align:right}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 14px}
+.chip{border-radius:99px;padding:6px 14px;font-size:15px}
+.chip[aria-pressed=true]{background:var(--brand);border-color:var(--brand);color:var(--bg)}
+.chip.red{border-color:var(--bad)}
+.lvl{border-left:6px solid;border-radius:8px;padding:14px 16px;margin-bottom:14px}
+.lvl h3{font-size:22px}.lvl.a{background:var(--fairs);border-color:var(--fair)}.lvl.b{background:var(--warns);border-color:var(--warn)}.lvl.c{background:var(--bads);border-color:var(--bad)}
+.out2 h3{font-size:17px;margin:14px 0 4px}.out2 ul{margin:0;padding-left:20px}
+.cats{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.cats div{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.cats b{display:block}.cats span{font-size:14px;color:var(--muted)}
+details{background:var(--card);border:1px solid var(--line);border-radius:10px;margin-bottom:8px}
+summary{cursor:pointer;padding:12px 16px;font-weight:600}
+details p{margin:0;padding:0 16px 14px;color:var(--muted)}
+.note{font-size:14px;color:var(--muted);margin-top:12px}
+body:before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(900px 520px at 88% -8%,var(--tint),transparent 70%),radial-gradient(700px 400px at -10% 30%,var(--tint),transparent 70%)}
+.panel{box-shadow:0 14px 34px -22px rgba(58,61,158,.5)}
+#th{padding:5px 12px;font-size:14px;border-radius:99px}
+.sos{display:inline-block;margin-top:20px;border:1px solid var(--bad);color:var(--bad);border-radius:8px;padding:8px 14px;font-weight:600;text-decoration:none}
+.tl{border-left:2px solid var(--brand);margin-left:8px;padding-left:20px}
+.te{position:relative;margin-bottom:16px}
+.te:before{content:"";position:absolute;left:-27px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--brand);border:3px solid var(--card)}
+.te .meta{font-size:14px;color:var(--muted)}
+.k{background:var(--tint);color:var(--brand);border-radius:99px;padding:1px 10px;font-size:13.5px;font-weight:600}
+.cpr{display:grid;gap:20px;margin-bottom:16px}
+@media(min-width:880px){.cpr{grid-template-columns:1.1fr 1fr;align-items:center}}
+.cpr ol{margin:0 0 12px;padding-left:20px}.cpr li{margin-bottom:6px}
+@media (prefers-reduced-motion:reduce){.pump,.chest,.beat{animation:none}html{scroll-behavior:auto}}
+@media print{nav,.hero,section:not(#reports),footer,.noprint{display:none!important}}
+.cpr{display:block}.hero{position:relative}
+body:before{background:radial-gradient(700px 420px at var(--mx,85%) var(--my,0%),rgba(227,184,102,.15),transparent 70%),radial-gradient(900px 520px at 0% 30%,var(--tint),transparent 70%)}
+select:focus,input:focus{border-color:var(--gold)}
+.logo{background:linear-gradient(100deg,var(--brand) 30%,var(--gold) 50%,var(--brand) 70%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sheen 5s linear infinite}
+@keyframes sheen{to{background-position:-200% 0}}
+nav a:not(.logo){position:relative}nav a:not(.logo):after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:2px;background:var(--gold);transform:scaleX(0);transition:transform .3s}nav a:not(.logo):hover:after{transform:none}
+button.p{box-shadow:0 8px 20px -10px var(--brand);transition:transform .2s,box-shadow .2s}button.p:hover{transform:translateY(-2px)}
+.chip{transition:background .25s,transform .2s}.chip:hover{transform:translateY(-2px)}
+@keyframes up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@keyframes rowin{from{opacity:0;transform:translateY(14px)}}
+@keyframes grow{from{transform:scaleX(0)}}
+@keyframes pop{from{opacity:0;transform:scale(.96)}}
+@keyframes fade{from{opacity:0;transform:translateY(-6px)}}
+@keyframes em{50%{box-shadow:0 0 0 7px rgba(179,57,45,.2)}}
+@keyframes drift{to{transform:translate(40px,30px) scale(1.15)}}
+@keyframes scan{from{stroke-dashoffset:1200}to{stroke-dashoffset:0}}
+.w{display:inline-block;opacity:0}body.go .w{animation:up .9s calc(var(--i)*90ms + 250ms) cubic-bezier(.2,.8,.2,1) both}
+.gs{opacity:0}body.go .gs{animation:up .9s calc(var(--g,0)*120ms + 700ms) cubic-bezier(.2,.8,.2,1) both}
+.orb{position:absolute;border-radius:50%;filter:blur(64px);opacity:.3;z-index:-1;animation:drift 14s ease-in-out infinite alternate}
+.o1{width:260px;height:260px;background:var(--gold);right:4%;top:-30px}.o2{width:300px;height:300px;background:var(--brand);left:-70px;bottom:-60px;animation-delay:-6s}
+.hb{position:absolute;left:0;bottom:-10px;width:100%;height:90px;z-index:-1;opacity:.55}
+.hb path{fill:none;stroke:var(--gold);stroke-width:2;stroke-dasharray:420 780;vector-effect:non-scaling-stroke;animation:scan 6s linear infinite}
+.rv{opacity:0;transform:translateY(30px);transition:opacity .8s,transform .8s cubic-bezier(.2,.8,.2,1)}.rv.in{opacity:1;transform:none}
+h2:after{content:"";display:block;width:56px;height:3px;border-radius:2px;background:var(--gold);margin-top:12px;transform:scaleX(0);transform-origin:left;transition:transform .9s .25s}.in h2:after{transform:none}
+.c{animation:rowin .5s both}.c:nth-child(2){animation-delay:.07s}.c:nth-child(3){animation-delay:.14s}.c:nth-child(4){animation-delay:.21s}.c:nth-child(5){animation-delay:.28s}.c:nth-child(6){animation-delay:.35s}
+.bar i{transform-origin:left;animation:grow .9s cubic-bezier(.2,.8,.2,1) both}
+#sym .lvl{animation:pop .45s both}#sym .lvl.c{animation:pop .45s both,em 1.8s 1s infinite}#sym>*:not(.lvl){animation:rowin .5s .1s both}
+.cats div{transition:transform .3s,border-color .3s}.cats div:hover{transform:translateY(-4px);border-color:var(--gold)}
+details{transition:border-color .3s}details:hover{border-color:var(--gold)}details[open] p{animation:fade .4s both}
+@media print{.rv{opacity:1!important;transform:none!important}}
+@media (prefers-reduced-motion:reduce){.gs,.w,.rv{opacity:1!important;transform:none!important;animation:none!important;transition:none!important}.orb,.hb path,.logo,.bar i,.c,#sym *{animation:none!important}}
+.sw{position:relative}.sr{position:absolute;left:0;right:0;top:100%;z-index:4;background:var(--card);border:1px solid var(--line);border-radius:8px;margin-top:4px;max-height:260px;overflow:auto;box-shadow:0 18px 36px -18px rgba(21,22,58,.5)}.sr[hidden]{display:none}
+.sr button{display:block;width:100%;text-align:left;border:0;border-radius:0;background:none;padding:10px 14px}.sr button:hover,.sr button:focus-visible{background:var(--tint)}
+#cs{width:auto;padding:5px 10px;font-size:14px;border-radius:99px}
+.nums{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.num{display:block;text-decoration:none;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--bad);border-radius:10px;padding:12px 14px;transition:transform .3s,border-color .3s}.num:hover{transform:translateY(-4px);border-color:var(--gold)}
+.num b{display:block;font:700 30px "Fraunces",Georgia,serif;color:var(--bad)}.num span{font-size:14px;color:var(--muted)}
+.btn{display:inline-block;background:var(--brand);color:var(--bg);padding:9px 18px;border-radius:8px;text-decoration:none;font-weight:600}
+.fb{padding:0 16px 14px;color:var(--muted)}.fb p{margin:0 0 8px;padding:0}.fb ol,.fb ul{margin:0 0 10px;padding-left:20px}.fb li{margin-bottom:5px}.fb button{margin:4px 0 8px}
+details[open] .fb{animation:fade .4s both}
+footer{margin-top:72px;border-top:1px solid var(--line);padding:24px 0 40px;font-size:14.5px;color:var(--muted)}
+
+.dsum{display:flex;gap:24px;flex-wrap:wrap;margin:0 0 14px;font-size:15px;color:var(--muted)}.dsum b{display:block;font:700 22px "Fraunces",Georgia,serif;color:var(--ink)}
+.fcs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}.fc{border-radius:99px;padding:4px 13px;font-size:14.5px}.fc[aria-pressed=true]{background:var(--brand);border-color:var(--brand);color:var(--bg);font-weight:600}
+.dg{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+.dd{display:block;width:100%;padding:0;overflow:hidden;text-align:left;border-radius:10px}.dd:hover{border-color:var(--gold)}
+.dd img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;background:var(--tint)}
+.dd .l{display:block}.dd>.l{padding:10px 12px;font-size:14.5px}.dd .meta{font-size:14px;color:var(--muted)}
+#xlb{border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);padding:16px;max-width:min(94vw,820px)}#xlb::backdrop{background:rgba(9,10,31,.72)}
+#xlb img{display:block;max-width:100%;max-height:68vh;margin:0 auto 12px;border-radius:8px}
+@media print{.dg{grid-template-columns:repeat(3,1fr)}.dd{break-inside:avoid}}
+.fi{display:grid;place-items:center;aspect-ratio:4/3;background:var(--tint);color:var(--brand);font:700 26px "Fraunces",Georgia,serif}
+#xlb iframe{display:block;width:100%;height:60vh;border:0;border-radius:8px;margin-bottom:12px}
+.cats details{border:0;padding:0;margin:8px 0 0;background:none}.cats summary{cursor:pointer;color:var(--brand);font-weight:600}
+
+nav{position:static;background:none;border:0}
+nav .wrap{height:auto;flex-wrap:wrap;overflow:visible;white-space:normal;gap:10px 20px;padding-top:18px;animation:fade .9s .1s both}
+@media(max-width:700px){.logo{flex-basis:100%}}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 16px)}
+#up{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:6;width:44px;height:44px;padding:0;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#e3b866,#c99a3e);border-color:#e3b866;color:#14163a;box-shadow:0 10px 24px -8px rgba(0,0,0,.4);opacity:0;visibility:hidden;transform:translateY(12px);transition:opacity .3s,transform .3s,visibility .3s}
+#up.on{opacity:1;visibility:visible;transform:none}
+@media print{#up{display:none}}
+@media (prefers-reduced-motion:reduce){nav .wrap{animation:none}#up{transition:none}}
+#lab textarea{display:block;width:100%;min-height:84px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);font:inherit;color:var(--ink);resize:vertical;margin-bottom:14px}
+#lab textarea:focus{border-color:var(--gold)}#lab textarea:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+#lab details{margin-bottom:10px}.lg{padding:4px 14px 2px}
+.aib{margin-top:16px;padding:12px 16px;border-radius:10px;background:var(--tint);border-left:4px solid var(--gold)}#lai{margin-top:4px;white-space:pre-wrap}
+@media(min-width:880px){#lo{position:sticky;top:16px;align-self:start}}
+</style>
+</head>
+<body>
+<nav><div class="wrap"><a class="logo" href="#top">MediClear</a><a href="#bill">Bill check</a><a href="#symptoms">Symptoms</a><a href="#find">Find hospitals</a><a href="#medicines">Medicines</a><a href="#reports">Health record</a><a href="#firstaid">First aid</a><a href="#lab">AI lab analyser</a><a href="#hospitals">For providers</a><select id="cs" aria-label="Choose city"><option>Kanpur</option><option>Lucknow</option><option>Delhi</option><option>Mumbai</option></select><button id="th" aria-label="Switch light or dark theme">Theme</button></div></nav>
+<main id="top" class="wrap">
+
+<div class="hero">
+<div>
+<h1>Know what it should cost before you pay.</h1>
+<p class="lead">Compare hospitals and labs in Kanpur, Lucknow, Delhi and Mumbai against a government benchmark, check your bill, and find out your next step when you feel unwell.</p>
+<div class="stats"><div><b>4</b>cities covered</div><div><b>3 steps</b>from symptom to choice</div><div><b>Free</b>for patients</div></div>
+<a class="sos" href="#firstaid">Emergency? Call 112 or 108. See first aid</a>
+</div>
+<div class="panel" id="compare">
+<div class="row"><div><label for="test">Test or scan</label><select id="test"></select></div><div><label for="sort">Sort by</label><select id="sort"><option value="p">Lowest price</option><option value="w">Shortest wait</option><option value="r">Best rating</option></select></div></div>
+<div class="bench" id="bench"></div>
+<div id="list"></div>
+</div>
+</div>
+
+<section id="sos">
+<h2>Emergency numbers</h2>
+<p class="intro">Tap a number to call from your phone. Save these before you need them.</p>
+<div class="nums"><a class="num" href="tel:112"><b>112</b><span>All emergencies</span></a><a class="num" href="tel:108"><b>108</b><span>Ambulance</span></a><a class="num" href="tel:102"><b>102</b><span>Ambulance for mothers and newborns</span></a><a class="num" href="tel:1091"><b>1091</b><span>Women helpline</span></a><a class="num" href="tel:1098"><b>1098</b><span>Childline</span></a><a class="num" href="tel:14416"><b>14416</b><span>Tele-MANAS, mental health support</span></a></div>
+</section>
+
+<section id="bill">
+<h2>Check your bill</h2>
+<p class="intro">Add each line from your bill. We compare it with the benchmark and show what may be excess.</p>
+<div class="two">
+<div class="panel"><div class="items" id="items"></div><button id="add">Add item</button></div>
+<div class="panel"><div id="res"></div></div>
+</div>
+</section>
+
+<section id="symptoms">
+<h2>What should I do next?</h2>
+<p class="intro">Pick what you feel. This guide points you to the right level of care. It does not diagnose.</p>
+<div class="two">
+<div class="panel">
+<label for="sq">Search symptoms</label>
+<div class="sw"><input id="sq" type="search" autocomplete="off" placeholder="Type any symptom, e.g. fever, dizziness, hair loss"><div id="sr" class="sr" hidden></div></div>
+<label style="margin-top:14px">Your symptoms</label><div class="chips" id="sel"></div>
+<label>Common symptoms</label><div class="chips" id="chips"></div>
+<div class="row"><div><label for="dur">For how long</label><select id="dur"><option value="0">Less than a day</option><option value="1" selected>1 to 3 days</option><option value="2">More than 3 days</option></select></div>
+<div><label for="age">Age group</label><select id="age"><option value="i">Infant (under 1)</option><option value="c">Child (1 to 12)</option><option value="t">Teen (13 to 17)</option><option value="a" selected>Adult (18 to 59)</option><option value="s">Senior (60+)</option></select></div></div>
+</div>
+<div class="panel out2" id="sym"></div>
+</div>
+</section>
+
+<section id="find">
+<h2>Find a hospital</h2>
+<p class="intro">Hospitals and clinics in your city, with consultation price against the usual rate. Change the city from the top bar.</p>
+<div class="row" style="max-width:520px"><div><label for="hq">Search hospital, area or doctor</label><input id="hq" type="search" autocomplete="off" placeholder="e.g. Kakadeo, heart, Dr. Verma"></div><div><label for="hc">City</label><select id="hc"></select></div></div>
+<div class="row" style="max-width:520px"><div><label for="ho">Sort by</label><select id="ho"><option value="d">Nearest first</option><option value="p">Lowest price</option><option value="r">Highest rating</option></select></div><div><label for="hd">Doctor timing</label><select id="hd"><option value="">Any time</option><option value="n">Doctor available now</option><option value="e">Evening, after 5 pm</option></select></div></div>
+<div class="row" style="max-width:520px"><div><label for="fs">Speciality</label><select id="fs"></select></div><div><label for="fe">Emergency care</label><select id="fe"><option value="0">Any</option><option value="1">Open for emergencies</option></select></div></div>
+<p class="sum" id="fc"></p>
+<div class="cats" id="hl"></div>
+</section>
+
+<section id="medicines">
+<h2>Medicine categories</h2>
+<p class="intro">Medicines grouped by the field they treat, with typical price bands. A lower-cost option usually exists in each category. Confirm any switch with your doctor or pharmacist.</p>
+<div class="panel" style="margin-bottom:18px"><label for="mq">Search medicines</label><input id="mq" type="search" autocomplete="off" placeholder="Medicine, brand or problem, e.g. Dolo, acidity, diabetes"><p class="note">For information only. Ask a doctor or pharmacist before starting, stopping or switching any medicine. Prescription medicines need a doctor's prescription.</p></div><div class="cats" id="mr" style="margin-bottom:28px"></div><h3 style="margin:0 0 12px;font-size:24px">Price bands by category</h3><div class="cats" id="cats"></div>
+<p class="note">Price bands are samples for illustration.</p>
+</section>
+
+<section id="reports">
+<h2>One health record, from birth</h2>
+<p class="intro">Every vaccine, illness, surgery, allergy and lab report in one timeline, so a new doctor sees the full background in a minute. Add photos of reports, X-rays and bills too, and the record updates each time.</p>
+<div class="two">
+<div class="panel">
+<div class="row"><div><label for="pn">Name</label><input id="pn" value="Sample Patient"></div><div><label for="pd">Date of birth</label><input id="pd" type="date" value="2004-03-12"></div></div>
+<label>Add to the record</label>
+<div class="row"><select id="ek" aria-label="Type of entry"><option>Vaccination</option><option>Illness</option><option>Surgery</option><option>Allergy</option><option>Lab report</option><option>Prescription</option><option>Growth check</option></select><input id="ed" type="date" aria-label="Date of entry"></div>
+<input id="et" placeholder="Details, e.g. Typhoid vaccine" aria-label="Details" style="margin-bottom:10px">
+<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="p" id="ea">Add entry</button><button id="ep">Print or save as PDF</button></div>
+<p class="note">Demo only: entries stay in this browser and the sample entries are made up. The real product needs consent and encryption.</p>
+</div>
+<div class="panel"><div id="tl"></div></div>
+</div>
+<h3 style="margin:40px 0 6px;font-size:24px">Reports, X-rays and bills</h3>
+<p class="intro" style="margin-bottom:16px">Add a photo or file of any document. It is saved to the record, shown newest first, and added to the timeline above.</p>
+<div class="two">
+<div class="panel noprint">
+<div class="row"><div><label for="xt">Type</label><select id="xt"><option>Lab report</option><option>X-ray or scan</option><option>Bill</option><option>Prescription</option><option>Discharge summary</option><option>Insurance or ID</option><option>Other</option></select></div><div><label for="xd">Date on the document</label><input id="xd" type="date"></div></div>
+<label for="xn">Note</label><input id="xn" placeholder="e.g. Chest X-ray, Dr. Verma" style="margin-bottom:12px">
+<div id="xaw" hidden style="margin-bottom:12px"><label for="xa">Bill amount (₹)</label><input id="xa" type="number" min="0" inputmode="numeric"></div>
+<label for="xi">Photos, scans or files: JPG, PNG, PDF, Word, text (up to 8 MB each)</label><input id="xi" type="file" accept="image/*,.pdf,.doc,.docx,.txt" multiple style="margin-bottom:12px">
+<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><button class="p" id="xs">Save to record</button><span id="xm" class="sum" role="status"></span></div>
+<p class="note">Demo only: photos are shrunk and kept in this browser. The real product needs consent, encryption and a secure server.</p>
+</div>
+<div><div class="dsum" id="xsum"></div><div class="fcs noprint" id="xfc"></div><div class="dg" id="xg"></div></div>
+</div>
+<dialog id="xlb" aria-label="Document preview"></dialog>
+<h3 class="noprint" style="margin:40px 0 12px;font-size:24px">Understand a lab value</h3>
+<div class="panel noprint" style="max-width:560px">
+<div class="row"><div><label for="rt">Measurement</label><select id="rt"></select></div><div><label for="rv">Your value</label><input id="rv" type="number" step="any" inputmode="decimal" placeholder="e.g. 11.2"></div></div>
+<div id="rres" class="sum">Enter a value to see the result.</div>
+</div>
+</section>
+
+<section id="firstaid">
+<h2>First aid, step by step</h2>
+<p class="intro">For the first minutes before help arrives. In any serious case call 112 or 108.</p>
+<div style="max-width:700px" id="fa"></div>
+</section>
+
+<section id="lab">
+<h2>AI lab analyser</h2>
+<p class="intro">Type in values from your blood tests, ECG, heart scan or brain report. Skip anything you do not have. You get what is low or high, what it may point to, and who to see.</p>
+<div class="two">
+<div class="panel">
+<div class="row"><div><label for="la">Age</label><input id="la" type="number" min="0" max="120" inputmode="numeric"></div><div><label for="ls">Sex</label><select id="ls"><option value="f">Female</option><option value="m">Male</option></select></div></div>
+<div id="lf"></div>
+<label for="lt">Paste report text (optional)</label>
+<textarea id="lt" class="lv" placeholder="e.g. ECG: sinus rhythm, ST depression in V4 to V6. MRI brain: no mass lesion."></textarea>
+<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="p" id="lb">Analyse</button><button id="lx">Try sample values</button><button id="lc">Clear</button></div>
+</div>
+<div class="panel out2" id="lo" aria-live="polite"></div>
+</div>
+</section>
+
+<section id="hospitals">
+<h2>For hospitals and labs</h2>
+<p class="intro">Providers set their own prices and see where they stand against the benchmark and nearby centres. Fairly priced, verified centres earn a trust badge.</p>
+<div class="panel" style="max-width:640px">
+<div class="row"><div><label for="ht">Test</label><select id="ht"></select></div><div><label for="hp">Your price (₹)</label><input id="hp" type="number" min="0" inputmode="numeric" placeholder="e.g. 4800"></div></div>
+<div id="hres" class="sum"></div>
+</div>
+</section>
+</main>
+<footer><div class="wrap">All prices, ratings, hospitals, phone numbers, doctors and timings shown are sample data for the demo and will be replaced with verified data in the Kanpur pilot. MediClear gives guidance and is not a substitute for a doctor. Team: [add names]</div></footer>
+
+<script>
+const $=id=>document.getElementById(id),inr=n=>"₹"+Math.round(n).toLocaleString("en-IN");
+const tg=r=>r<=1.15?["fair","Fair"]:r<=1.5?["above","Above benchmark"]:["high","High"];
+let city="Kanpur";const T=[["MRI brain",5000,1],["CT chest",3500,1],["X-ray chest",350,1],["Ultrasound abdomen",900,1],["Complete blood count",350,0],["Lipid profile",600,0],["HbA1c",550,0],["TSH",400,0],["Fasting blood sugar",100,0]];
+const C=[["Shastri City Diagnostics",.95,2,4.2,1],["Civil Lines Imaging",1.05,1,4.4,1],["QuickCheck Path Lab",1.1,0,4.1,0],["Ganga Multispeciality",1.35,0,4.6,1],["Kalyanpur Diagnostics",1.7,3,4,1]];
+$("test").innerHTML=T.map((t,i)=>`<option value="${i}">${t[0]}</option>`).join("");
+function compare(){const t=T[$("test").value],s=$("sort").value;
+let L=C.filter(c=>!t[2]||c[4]).map(c=>({n:c[0],p:t[1]*c[1],w:c[2],r:c[3]}));
+L.sort((a,b)=>s=="p"?a.p-b.p:s=="w"?a.w-b.w:b.r-a.r);const mx=Math.max(...L.map(x=>x.p));
+$("bench").textContent=city+". Benchmark for "+t[0]+": "+inr(t[1])+" (sample rate)";
+$("list").innerHTML=L.map(x=>{const g=tg(x.p/t[1]);return `<div class="c"><div class="top"><b>${x.n}</b><span><b>${inr(x.p)}</b> <span class="tag ${g[0]}">${g[1]}</span></span></div><div class="meta">${x.w?"Wait "+x.w+(x.w>1?" days":" day"):"Same day"}, rating ${x.r.toFixed(1)}</div><div class="bar"><i class="${g[0]}" style="width:${x.p/mx*100}%"></i></div></div>`}).join("")}
+$("test").onchange=$("sort").onchange=compare;compare();
+
+const B=[...T.map(t=>[t[0],t[1]]),["Doctor consultation",500],["General ward room, per day",1500]];
+let rows=[[0,6200],[9,650],[10,2100]];
+function bill(){$("items").innerHTML=rows.map((r,i)=>`<div class="r"><select data-i="${i}" class="si" aria-label="Item">${B.map((b,j)=>`<option value="${j}"${j==r[0]?" selected":""}>${b[0]}</option>`).join("")}</select><input class="ai" data-i="${i}" type="number" min="0" value="${r[1]}" aria-label="Amount billed"><button class="x" data-i="${i}" aria-label="Remove item">×</button></div>`).join("");
+document.querySelectorAll(".si").forEach(e=>e.onchange=()=>{rows[e.dataset.i][0]=+e.value;calc()});
+document.querySelectorAll(".ai").forEach(e=>e.oninput=()=>{rows[e.dataset.i][1]=+e.value||0;calc()});
+document.querySelectorAll(".x").forEach(e=>e.onclick=()=>{rows.splice(e.dataset.i,1);bill()});calc()}
+function calc(){let tot=0,ex=0,h="";rows.forEach(r=>{const b=B[r[0]],g=tg(r[1]/b[1]),e=g[0]=="fair"?0:Math.max(0,r[1]-b[1]);tot+=r[1];ex+=e;h+=`<div>${b[0]}<br><span class="sum">Benchmark ${inr(b[1])}</span></div><div><span class="tag ${g[0]}">${g[1]}</span></div><div class="n">${inr(r[1])}</div>`});
+$("res").innerHTML=rows.length?`<div class="out">${h}</div><p style="margin:14px 0 0"><b>Billed ${inr(tot)}.</b> ${ex?`Possible excess over benchmark: <b>${inr(ex)}</b>. Ask the hospital to explain these items.`:"Every item is within the usual range."}</p>`:"Add an item to check it."}
+$("add").onclick=()=>{rows.push([0,0]);bill()};bill();
+
+const S=[["Chest pain","Cardiologist",1,"heart pressure tightness"],["Difficulty breathing","Pulmonologist",1,"breathless shortness of breath wheeze"],["Fainting or confusion","Neurologist",1,"unconscious blackout collapse"],["Heavy bleeding or serious injury","Emergency doctor",1,"blood accident wound fracture"],["Sudden very severe headache","Neurologist",1,"worst headache"],["Weakness on one side or slurred speech","Neurologist",1,"stroke face droop paralysis"],["Seizure or fits","Neurologist",1,"convulsion epilepsy"],["Vomiting blood or black stools","Gastroenterologist",1,"blood in vomit"],["Thoughts of self-harm","Psychiatrist or counsellor",1,"suicidal want to die hurt myself"],
+["Fever","General physician",0,"temperature chills bukhar"],["Cough","General physician",0,"khansi dry phlegm"],["Cold or runny nose","General physician",0,"sneezing congestion"],["Sore throat","ENT specialist",0,"throat pain swallowing"],["Ear pain","ENT specialist",0,"earache discharge"],["Headache","General physician",0,"migraine head pain ache"],["Stomach pain","Gastroenterologist",0,"abdominal cramps belly ache"],["Vomiting or loose motions","General physician",0,"diarrhoea nausea dehydration"],["Acidity or heartburn","Gastroenterologist",0,"gas indigestion burning"],["Constipation","General physician",0,"hard stool"],["Body ache","General physician",0,"muscle pain weakness"],["Back pain","Orthopaedic doctor",0,"spine lower back ache"],["Joint pain or swelling","Orthopaedic doctor",0,"knee arthritis"],["Skin rash or itching","Dermatologist",0,"allergy hives red patches"],["Acne or hair fall","Dermatologist",0,"pimples"],["Burning urine","General physician",0,"urine infection frequent"],["Tiredness","General physician",0,"fatigue weak lethargy"],["Dizziness","General physician",0,"vertigo spinning"],["Eye redness or pain","Ophthalmologist",0,"blurred vision itchy eyes"],["Toothache","Dentist",0,"gum swelling tooth pain"],["Anxiety or low mood","Psychiatrist or counsellor",0,"stress sad depressed panic worry"],["Trouble sleeping","General physician",0,"insomnia"],["Increased thirst or hunger","Diabetologist",0,"high sugar diabetes frequent urination"],["Period problems","Gynaecologist",0,"irregular periods cramps"],["Child not eating or very sleepy","Paediatrician",0,"baby infant lethargic"]];
+const CC={Kanpur:[["Shastri City Diagnostics",.95,2,4.2,1],["Civil Lines Imaging",1.05,1,4.4,1],["QuickCheck Path Lab",1.1,0,4.1,0],["Ganga Multispeciality",1.35,0,4.6,1],["Kalyanpur Diagnostics",1.7,3,4,1]],
+Lucknow:[["Gomti Nagar Diagnostics",1,1,4.3,1],["Hazratganj Imaging Centre",1.1,0,4.4,1],["Aminabad Path Lab",.95,0,4,0],["Charbagh Multispeciality",1.4,0,4.6,1],["Alambagh Scan Centre",1.2,2,4.1,1]],
+Delhi:[["Dwarka Diagnostics",1.1,1,4.3,1],["Karol Bagh Imaging",1.5,0,4.5,1],["Saket Path Lab",1,0,4.2,0],["Rohini Multispeciality",1.8,0,4.6,1],["Lajpat Scan Centre",1.25,2,4,1]],
+Mumbai:[["Andheri Diagnostics",1.2,1,4.2,1],["Bandra Imaging Centre",1.6,0,4.5,1],["Dadar Path Lab",1.05,0,4.1,0],["Powai Multispeciality",2,0,4.7,1],["Thane Scan Centre",1.3,2,4,1]]};
+const HH={Kanpur:[["Ganga Multispeciality",700,20,1,"General medicine, Cardiology, Neurology",4.6,"Multispeciality hospital"],["Civil Lines Clinic",450,35,0,"General medicine, Paediatrics",4.3,"Clinic"],["Kalyanpur Hospital",800,15,1,"Orthopaedics, Cardiology, General medicine",4.4,"Multispeciality hospital"],["Shastri Nagar Clinic",400,45,0,"General medicine, Dermatology",4.1,"Clinic"]],
+Lucknow:[["Gomti Nagar Super Speciality",900,18,1,"Cardiology, Neurology, General medicine",4.6,"Super-speciality hospital"],["Hazratganj Family Clinic",500,30,0,"General medicine, Paediatrics",4.2,"Clinic"],["Charbagh City Hospital",650,12,1,"Orthopaedics, General medicine",4.3,"Multispeciality hospital"],["Aminabad Health Centre",350,40,0,"General medicine, Dermatology",4,"Clinic"]],
+Delhi:[["Dwarka Multispeciality",1100,16,1,"Cardiology, Neurology, Orthopaedics",4.5,"Multispeciality hospital"],["Karol Bagh Clinic",700,25,0,"General medicine, ENT",4.2,"Clinic"],["Rohini City Hospital",950,10,1,"General medicine, Paediatrics, Orthopaedics",4.4,"Multispeciality hospital"],["Saket Specialty Clinic",800,30,0,"Dermatology, Gynaecology",4.3,"Clinic"]],
+Mumbai:[["Andheri Multispeciality",1300,14,1,"Cardiology, Orthopaedics, General medicine",4.5,"Multispeciality hospital"],["Dadar Family Clinic",800,20,0,"General medicine, Paediatrics",4.2,"Clinic"],["Powai Super Speciality",1500,22,1,"Neurology, Cardiology, General medicine",4.6,"Super-speciality hospital"],["Thane Health Centre",650,35,0,"General medicine, Gynaecology",4.1,"Clinic"]]};
+const CB={Kanpur:500,Lucknow:500,Delhi:800,Mumbai:900},H=[];
+const setCity=c=>{city=c;C.splice(0,C.length,...CC[c]);H.splice(0,H.length,...HH[c])};setCity("Kanpur");
+const ex=t=>t.replace(/[&<>"]/g,c=>"&#"+c.charCodeAt(0)+";");
+let P=[];
+function srch(q){q=q.toLowerCase().trim();if(!q)return[];const w=q.split(/\s+/);
+return S.map((s,i)=>{const h=(s[0]+" "+s[3]).toLowerCase(),n=w.filter(x=>h.includes(x)).length;return[i,n?n+(s[0].toLowerCase().startsWith(q)?2:0):0]}).filter(x=>x[1]).sort((a,b)=>b[1]-a[1]).slice(0,6).map(x=>x[0])}
+function sel(){$("sel").innerHTML=P.length?P.map((p,i)=>`<button class="chip" aria-pressed="true" data-r="${i}" aria-label="Remove ${ex(p[0])}">${ex(p[0])} ×</button>`).join(""):"<span class='sum'>Nothing added yet.</span>";
+document.querySelectorAll("[data-r]").forEach(b=>b.onclick=()=>{P.splice(+b.dataset.r,1);sel();guide()})}
+function add(p){if(!P.some(x=>x[0]==p[0]))P.push(p);$("sq").value="";$("sr").hidden=true;sel();guide()}
+function sug(){const q=$("sq").value.trim(),r=$("sr");if(!q){r.hidden=true;return}
+r.innerHTML=srch(q).map(i=>`<button data-i="${i}">${S[i][0]}${S[i][2]?" (urgent)":""}</button>`).join("")+`<button data-c="1">Add "${ex(q)}" as another symptom</button>`;r.hidden=false;
+r.querySelectorAll("button").forEach(b=>b.onclick=()=>b.dataset.c?add([q,"General physician",0]):add(S[b.dataset.i]))}
+$("sq").oninput=sug;
+$("sq").onkeydown=e=>{if(e.key=="Enter"){e.preventDefault();const f=$("sr").querySelector("button");if(f)f.click()}if(e.key=="Escape")$("sr").hidden=true};
+document.addEventListener("click",e=>{if(!e.target.closest(".sw"))$("sr").hidden=true});
+$("chips").innerHTML=S.map((s,i)=>[s,i]).filter(x=>["Chest pain","Fever","Cough","Headache","Stomach pain","Vomiting or loose motions","Body ache","Skin rash or itching","Back pain"].includes(x[0][0])).map(x=>`<button class="chip${x[0][2]?" red":""}" data-i="${x[1]}">${x[0][0]}</button>`).join("");
+document.querySelectorAll("#chips .chip").forEach(b=>b.onclick=()=>add(S[b.dataset.i]));
+$("dur").onchange=$("age").onchange=guide;
+const AN={i:"Babies under 1 year should see a doctor the same day for any illness. Do not give medicines without a doctor's advice.",c:"Do not give aspirin to children. Check any medicine dose with a paediatrician.",s:"Older adults can get worse quickly. Do not wait more than a day if symptoms continue, and carry your medicine list."};
+function guide(){const el=$("sym");if(!P.length){el.innerHTML="<p class='sum'>Search or tap a symptom to see your next step.</p>";return}
+const red=P.some(s=>s[2]),d=+$("dur").value,a=$("age").value,soon=d==2||P.length>=3||(a!="a"&&a!="t"&&d>0)||a=="i",lv=red?"c":soon?"b":"a";
+const sp=[...new Set([...(a=="i"||a=="c"||a=="t"?["Paediatrician"]:a=="s"?["Geriatric physician"]:[]),...P.map(s=>s[1])])].join(", "),title={a:"Self-care is likely enough",b:"See a doctor soon",c:"Go to emergency care now"}[lv];
+const hs=red?H.filter(h=>h[3]).sort((x,y)=>x[2]-y[2]):[...H].sort((x,y)=>x[1]-y[1]);
+const todo={a:["Rest, drink plenty of fluids and eat light food","Watch how you feel over the next day or two"],b:["Book a visit within a day or two","Carry any past reports and a list of medicines you take","Keep resting and drinking fluids"],c:["Call 112 or 108 or go to the nearest emergency hospital now","Do not drive yourself","Keep the person calm and seated or lying down"]}[lv];
+const crisis=P.some(s=>s[0]=="Thoughts of self-harm")?"<p><b>You are not alone.</b> Call Tele-MANAS on 14416 or 112 now, and stay with someone you trust.</p>":"";
+el.innerHTML=`<div class="lvl ${lv}"><h3>${title}</h3></div>${crisis}<h3>Type of specialist</h3><p style="margin:0">${sp}</p><h3>What to do</h3><ul>${todo.map(x=>`<li>${x}</li>`).join("")}</ul>${AN[a]?`<p class="sum">${AN[a]}</p>`:""}<h3>Warning signs, go to emergency care if</h3><ul><li>Trouble breathing or chest pain</li><li>Fainting, confusion or very high fever that does not come down</li><li>Symptoms getting worse quickly</li></ul><h3>${red?"Nearest emergency options in "+city:"Nearby options in "+city+", consultation price"}</h3>${hs.slice(0,5).map(h=>{const g=tg(h[1]/CB[city]);return `<div class="c"><div class="top"><b>${h[0]}</b><span>${red?"about "+h[2]+" min away, tel "+h[7]:inr(h[1])+` <span class="tag ${g[0]}">${g[1]}</span>`}</span></div></div>`}).join("")}`}
+function dir(){const sp=[...new Set(H.flatMap(h=>h[4].split(", ")))].sort(),cur=$("fs").value;
+$("fs").innerHTML='<option value="">All specialities</option>'+sp.map(x=>`<option${x==cur?" selected":""}>${x}</option>`).join("");
+const f=$("fs").value,e=$("fe").value=="1",L=H.filter(h=>(!f||h[4].includes(f))&&(!e||h[3]));
+$("fc").textContent=L.length+" found in "+city+". Consultation benchmark "+inr(CB[city])+" (sample).";
+$("hl").innerHTML=L.map(h=>{const g=tg(h[1]/CB[city]);return `<div><b>${h[0]}</b><span>${h[6]}, rating ${h[5].toFixed(1)}<br>${h[4]}<br>${inr(h[1])} <span class="tag ${g[0]}">${g[1]}</span><br>About ${h[2]} min away${h[3]?", emergency care":""}</span></div>`}).join("")||"<p class='sum'>No match. Try another speciality.</p>"}
+$("fs").onchange=$("fe").onchange=dir;
+$("cs").onchange=()=>{setCity($("cs").value);compare();prov();guide();dir()};
+;(()=>{
+const G=["Blood count","Liver","Sugar and hormones","Kidney and salts","Cholesterol","Heart and ECG","Brain"],
+P=[["hb","Haemoglobin","g/dL",0,[12,15],[13,17],7,20],["mcv","MCV (red cell size)","fL",0,[80,100]],["wbc","White cells","thousand/µL",0,[4,11],0,2,30],["plt","Platelets","thousand/µL",0,[150,450],0,50,1000],
+["tb","Total bilirubin","mg/dL",1,[.2,1.2],0,0,10],["db","Direct bilirubin","mg/dL",1,[0,.3]],["alt","ALT (SGPT)","U/L",1,[7,40],0,0,200],["ast","AST (SGOT)","U/L",1,[10,40],0,0,200],["alp","ALP","U/L",1,[44,147]],["alb","Albumin","g/dL",1,[3.5,5],0,2],
+["glu","Fasting glucose","mg/dL",2,[70,99],0,54,300],["a1c","HbA1c","%",2,[4,5.6],0,0,10],["ins","Fasting insulin","µIU/mL",2,[2,25]],["tsh","TSH","mIU/L",2,[.4,4]],["vd","Vitamin D","ng/mL",2,[30,100]],["b12","Vitamin B12","pg/mL",2,[200,900]],
+["cr","Creatinine","mg/dL",3,[.6,1.1],[.7,1.3],0,5],["ua","Uric acid","mg/dL",3,[2.6,6],[3.5,7.2]],["na","Sodium","mmol/L",3,[135,145],0,125,155],["k","Potassium","mmol/L",3,[3.5,5.1],0,3,6],
+["tc","Total cholesterol","mg/dL",4,[0,199]],["ldl","LDL","mg/dL",4,[0,99]],["hdl","HDL","mg/dL",4,[50,200],[40,200]],["tg","Triglycerides","mg/dL",4,[0,149],0,0,500],
+["hr","Heart rate","beats/min",5,[60,100],0,40,150],["pr","PR interval","ms",5,[120,200]],["qrs","QRS width","ms",5,[80,119]],["qtc","QTc","ms",5,[330,460],[330,450],0,500],["ef","Pumping power (EF)","%",5,[55,75],0,30]],
+SL=[["rh","Heart rhythm",5,["Regular (sinus)","Irregular or atrial fibrillation","Other abnormal rhythm"]],["st","ST and T waves",5,["No change","ST elevation","ST depression","T-wave inversion"]],["bs","Brain scan (MRI or CT)",6,["Normal","Mild age-related or small-vessel changes","Stroke (infarct)","Bleed (haemorrhage)","Mass or lesion","Brain shrinkage (atrophy)"]],["eg","EEG",6,["Normal","Abnormal (spikes or slowing)"]]],
+KW=[[/st[\s-]*elevation|stemi/i,"Your report text mentions ST elevation. This can be a heart attack. Call 112 or 108 now.",2,"Cardiologist"],[/ischaemi|ischemi|st[\s-]*depression|t[\s-]*wave inversion/i,"Your report text mentions signs of reduced blood flow to the heart. See a cardiologist the same day.",1,"Cardiologist"],[/atrial fibrillation|\bafib\b|flutter/i,"Your report text mentions an irregular rhythm. See a cardiologist soon.",1,"Cardiologist"],[/bundle branch|\b[lr]bbb\b/i,"Your report text mentions a bundle-branch block. A cardiologist can explain it.",1,"Cardiologist"],[/hypertroph|\blvh\b/i,"Your report text mentions a thickened heart muscle, often from long-standing high blood pressure.",1,"Cardiologist"],[/(myocardial|inferior|anterior|septal)\W+(?:\w+\W+){0,2}infarct/i,"Your report text mentions damage to the heart muscle. A cardiologist should review it.",1,"Cardiologist"],[/h(a)?emorrhage|h(a)?ematoma|midline shift/i,"Your report text mentions bleeding or pressure in the brain. Go to hospital now.",2,"Neurologist"],[/stroke|(cerebral|lacunar|cortical|brain)\W+(?:\w+\W+){0,2}infarct/i,"Your report text mentions a stroke. See a neurologist soon.",1,"Neurologist"],[/\bmass\b|tumou?r|lesion|aneurysm|neoplasm/i,"Your report text mentions a mass, lesion or aneurysm. A specialist should review it soon.",1,"Neurologist"],[/demyelinat/i,"Your report text mentions demyelination, which a neurologist should review.",1,"Neurologist"]],
+EMPTY='<p class="sum" style="margin:0">Your read-out appears here. Enter values on the left, or try the sample values.</p>',
+rg=(p,x)=>x=="m"&&p[5]?p[5]:p[4],
+gs=k=>{const v=$("l_"+k).value;return v===""?-1:+v};
+let rid=0;
+$("lf").innerHTML=G.map((g,i)=>`<details${i?"":" open"}><summary>${g}</summary><div class="lg"><div class="row">`+P.filter(p=>p[3]==i).map(p=>`<div><label for="l_${p[0]}">${p[1]} (${p[2]})</label><input class="lv" id="l_${p[0]}" type="number" step="any" inputmode="decimal"></div>`).join("")+SL.filter(s=>s[2]==i).map(s=>`<div><label for="l_${s[0]}">${s[1]}</label><select class="lv" id="l_${s[0]}"><option value="">Not in report</option>${s[3].map((o,j)=>`<option value="${j}">${o}</option>`).join("")}</select></div>`).join("")+`</div></div></details>`).join("");
+function ph(){const x=$("ls").value;P.forEach(p=>{const r=rg(p,x);$("l_"+p[0]).placeholder=r[0]+" to "+r[1]})}
+function run(){
+const x=$("ls").value,age=+$("la").value||0,tx=$("lt").value,rows=[],pats=[],sp=new Set,V={},S={},rh=gs("rh"),st=gs("st"),bs=gs("bs"),eg=gs("eg");let lv=0;
+const up=n=>{lv=Math.max(lv,n)},pt=(m,n,s)=>{pats.push([m,n||0]);up(n||0);if(s)sp.add(s)};
+P.forEach(p=>{const v=parseFloat($("l_"+p[0]).value);if(isNaN(v))return;const[lo,hi]=rg(p,x),c=!!((p[6]&&v<p[6])||(p[7]&&v>p[7])),s=v<lo?-1:v>hi?1:0;V[p[0]]=v;S[p[0]]=s;rows.push([p,v,s,c]);if(c)up(2);else if(s)up(1)});
+if(!rows.length&&rh<0&&st<0&&bs<0&&eg<0&&!tx.trim()){$("lo").innerHTML="<p class='sum' style='margin:0'>Enter at least one value, then press Analyse.</p>";return}
+if(age&&age<18)pt("These ranges are for adults. Ask a paediatrician to read a child's results.",1,"Paediatrician");
+if(S.hb<0){const m=V.mcv;pt(m<80?"Low haemoglobin with small red cells most often means iron deficiency. Ask for ferritin and iron tests.":m>100?"Low haemoglobin with large red cells points to a vitamin B12 or folate shortage.":"Low haemoglobin means anaemia. A doctor can look for the cause, such as blood loss, poor diet or long-term illness.",1,"General physician")}
+if(S.tb>0)pt(S.db>0&&S.alp>0?"High bilirubin with high ALP suggests a bile-flow blockage, such as a gallstone. An abdominal ultrasound is the usual next test.":S.alt>0||S.ast>0?"High bilirubin with high ALT or AST suggests liver inflammation such as hepatitis. Avoid alcohol and medicines not prescribed to you.":"Raised bilirubin alone is often harmless or from red-cell breakdown, but yellow eyes or dark urine need a check.",1,"Gastroenterologist");
+else if(S.alt>0||S.ast>0)pt("High ALT or AST means the liver is under strain. Fatty liver, alcohol and some medicines are common causes. Ask for a liver ultrasound.",1,"Gastroenterologist");
+const hm=V.ins&&V.glu?V.ins*V.glu/405:0;
+if(hm)pt("HOMA-IR is "+hm.toFixed(1)+(hm>=2.5?", which suggests insulin resistance even if sugar looks normal. Diet, daily walking and weight loss help.":", which is not in the insulin-resistance range."),hm>=2.5?1:0,hm>=2.5?"Endocrinologist":0);
+if(V.a1c>=6.5||V.glu>=126)pt("Sugar levels are in the diabetes range. Repeat the test and plan treatment with a doctor.",1,"Endocrinologist");
+else if(V.a1c>=5.7||V.glu>=100)pt("Sugar levels are in the prediabetes range. Fewer sugary foods, daily walking and weight loss can bring them back to normal.",1);
+if(S.tg>0&&S.hdl<0&&(S.glu>0||S.a1c>0))pt("High triglycerides, low HDL and raised sugar together form a metabolic-syndrome pattern, which raises heart and diabetes risk.",1,"General physician");
+if(V.cr&&age>=18){const f=x=="f",k=f?.7:.9,a=f?-.241:-.302,e=142*Math.pow(Math.min(V.cr/k,1),a)*Math.pow(Math.max(V.cr/k,1),-1.2)*Math.pow(.9938,age)*(f?1.012:1);
+pt("Estimated kidney filtration (eGFR) is "+Math.round(e)+", "+(e>=90?"normal":e>=60?"mildly reduced":e>=30?"moderately reduced":"severely reduced")+(e<60?". Kidney function needs a review, with a urine test and an ultrasound.":"."),e<60?1:0,e<60?"Nephrologist":0)}
+if(S.k>0&&S.cr>0)pt("High potassium with high creatinine can disturb the heart rhythm. Get this checked today.",2,"Nephrologist");
+if(S.tsh)pt(S.tsh>0?"High TSH suggests an underactive thyroid. It is common and treated with a daily tablet.":"Low TSH suggests an overactive thyroid. Fast heartbeat, weight loss and sweating are common signs.",1,"Endocrinologist");
+if(S.vd<0)pt("Low vitamin D is very common. Morning sunlight and a supplement advised by your doctor help.",0);
+if(S.b12<0)pt("Low vitamin B12 can cause tiredness and tingling in hands and feet. It is easy to correct.",1,"General physician");
+if(st==1)pt("ST elevation can mean a heart attack in progress. Call 112 or 108 now and do not drive yourself.",2,"Cardiologist");
+else if(st>1)pt("ST depression or T-wave inversion can mean the heart muscle is short of blood. See a cardiologist the same day, and go to emergency care if you have chest pain.",1,"Cardiologist");
+if(rh==1)pt("Atrial fibrillation raises the risk of stroke and often needs a blood thinner. See a cardiologist soon.",1,"Cardiologist");
+else if(rh==2)pt("An abnormal rhythm needs a cardiologist's review.",1,"Cardiologist");
+if(V.qtc>(x=="m"?450:460))pt("A long QTc can trigger dangerous heart rhythms. Check potassium, calcium and magnesium, and ask before starting new medicines."+(V.qtc>500?" Above 500 ms, get care today.":""),V.qtc>500?2:1,"Cardiologist");
+if(V.pr>200)pt("A long PR interval is a mild conduction delay (first-degree AV block). Usually harmless, but tell your cardiologist.",0,"Cardiologist");
+if(V.qrs>=120)pt("A wide QRS suggests a bundle-branch block or a conduction delay. An echo and a cardiologist's review are advised.",1,"Cardiologist");
+if(V.hr<60)pt("A slow heart rate is normal in athletes. Otherwise, with dizziness or fainting, see a doctor.",0);
+if(V.hr>100)pt("A fast heart rate can come from fever, anaemia, thyroid problems, anxiety or a rhythm problem. Rest and recheck, and see a doctor if it stays high.",0);
+if(V.ef<55)pt("Pumping power (EF) is "+(V.ef<40?"clearly reduced, which can mean heart failure. See a cardiologist soon.":"mildly reduced. A cardiologist can explain why."),1,"Cardiologist");
+if(bs==3)pt("A brain bleed is an emergency. Go to the nearest hospital now.",2,"Neurologist");
+else if(bs==2)pt("A stroke on a scan needs a neurologist's plan to prevent another one, with blood pressure, sugar and cholesterol control. Sudden weakness, face droop or slurred speech means call 112.",1,"Neurologist");
+else if(bs==4)pt("A mass or lesion on a scan needs a neurologist or neurosurgeon's review soon.",1,"Neurologist");
+else if(bs==1||bs==5)pt("Small-vessel changes or mild shrinkage are common with age. Control blood pressure and sugar, and mention memory or balance problems to a neurologist.",0);
+if(eg==1)pt("An abnormal EEG needs a neurologist's review, especially after seizures or blackouts.",1,"Neurologist");
+KW.forEach(([r,m,n,s])=>{const h=r.exec(tx);if(!h||/\b(no|without|nil|absent|negative)\b[^.;\n]*$/i.test(tx.slice(Math.max(0,h.index-30),h.index)))return;pt(m,n,s)});
+pats.sort((a,b)=>b[1]-a[1]);
+const ab=rows.filter(r=>r[2]),ok=rows.filter(r=>!r[2]),sp2=sp.size?[...sp]:ab.length?["General physician"]:[],
+row=r=>{const[p,v,s,c]=r,[lo,hi]=rg(p,x);return `<div>${p[1]}<br><span class="sum">Usual ${lo} to ${hi} ${p[2]}</span></div><div><span class="tag ${c?"high":"above"}">${c?(s<0?"Very low":"Very high"):(s<0?"Low":"High")}</span></div><div class="n">${v} ${p[2]}</div>`},
+T=["All entered values look usual","Show these results to a doctor soon","Get medical care now"][lv];
+$("lo").innerHTML=`<div class="lvl ${"abc"[lv]}"><h3>${T}</h3></div>`
++(ab.length?`<div class="out">${ab.map(row).join("")}</div>`:"")
++(ok.length?`<p class="sum" style="margin:12px 0 0">In the usual range: ${ok.map(r=>r[0][1]).join(", ")}.</p>`:"")
++(pats.length?`<h3>What this may point to</h3><ul>${pats.map(m=>`<li>${m[0]}</li>`).join("")}</ul>`:"")
++(sp2.length?`<h3>Who to see</h3><p style="margin:0">${sp2.join(", ")}</p>`:"")
++`<div class="aib"><b>AI summary</b><div id="lai">Writing a plain-language summary...</div></div><p class="note">For information only, not a diagnosis. Ranges are for adults who are not pregnant, and labs differ slightly, so use the range printed on your report if it differs. The AI summary sends only the values, age, sex and any text you paste, so remove your name from pasted text.</p>`;
+const my=++rid,q=`Age ${age||"not given"}, sex ${x=="f"?"female":"male"}.\nResults:\n${ab.concat(ok).map(r=>`${r[0][1]} ${r[1]} ${r[0][2]} (usual ${rg(r[0],x).join("-")}) ${r[2]<0?"LOW":r[2]>0?"HIGH":"normal"}`).join("\n")}\n${SL.map(s=>gs(s[0])<0?"":s[1]+": "+s[3][gs(s[0])]).filter(Boolean).join("\n")}\nChecks already flagged by the page:\n${pats.map(m=>"- "+m[0]).join("\n")}\nOverall urgency: ${T}.\nReport text: ${tx.slice(0,1500)||"none"}`;
+fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:1000,system:"You are a careful health educator for patients in India. Using only the data given, explain in simple English under 150 words: what stands out, common everyday causes, and what to ask the doctor. Do not diagnose or prescribe, and never downplay the urgency already flagged.",messages:[{role:"user",content:q}]})})
+.then(r=>r.ok?r.json():Promise.reject()).then(d=>{if(my==rid)$("lai").textContent=d.content.map(c=>c.text||"").join("")}).catch(()=>{if(my==rid)$("lai").textContent="The AI summary is not available in this view. The checks above still apply."})}
+$("lb").onclick=run;$("ls").onchange=ph;
+$("lc").onclick=()=>{document.querySelectorAll(".lv").forEach(e=>e.value="");rid++;$("lo").innerHTML=EMPTY};
+$("lx").onclick=()=>{const d={la:34,ls:"f",l_hb:9.1,l_mcv:72,l_tb:2.1,l_db:.9,l_alt:96,l_ast:84,l_alp:120,l_glu:108,l_a1c:5.9,l_ins:22,l_vd:14,l_cr:.8,l_hr:104,l_qtc:470,l_st:3};for(const k in d)$(k).value=d[k];document.querySelectorAll("#lf details").forEach(e=>e.open=true);ph();run()};
+ph();$("lo").innerHTML=EMPTY;
+})();
+sel();guide();dir();
+
+const M=[["Pain relief","₹20 to 60","₹8 to 25"],["Antibiotics (prescription only)","₹80 to 250","₹40 to 120"],["Diabetes care","₹90 to 300","₹30 to 110"],["Blood pressure","₹70 to 220","₹25 to 90"],["Acidity and stomach","₹40 to 150","₹15 to 60"],["Cold and allergy","₹30 to 110","₹12 to 45"],["Vitamins and supplements","₹100 to 400","₹50 to 180"]];
+$("cats").innerHTML=M.map(m=>`<div><b>${m[0]}</b><span>Branded ${m[1]}<br>Lower-cost ${m[2]}</span></div>`).join("");
+
+const R=[["Hemoglobin, male (g/dL)",13,17,"Low hemoglobin can mean anaemia, which causes tiredness and weakness.","High hemoglobin should be reviewed by a doctor."],["Hemoglobin, female (g/dL)",12,15,"Low hemoglobin can mean anaemia, which causes tiredness and weakness.","High hemoglobin should be reviewed by a doctor."],["Fasting blood sugar (mg/dL)",70,99,"A low sugar level can cause dizziness and sweating.","A high fasting sugar is worth checking with a doctor for diabetes risk."],["Total cholesterol (mg/dL)",0,199.99,"","Cholesterol above 200 raises heart risk over time. Diet and activity help."],["Platelets (thousand/µL)",150,450,"Low platelets can cause easy bruising or bleeding. Get it checked soon.","High platelets should be reviewed by a doctor."],["TSH (mIU/L)",.4,4,"Low TSH can point to an overactive thyroid.","High TSH can point to an underactive thyroid."]];
+$("rt").innerHTML=R.map((r,i)=>`<option value="${i}">${r[0]}</option>`).join("");
+function rep(){const r=R[$("rt").value],v=parseFloat($("rv").value);if(isNaN(v)){$("rres").textContent="Enter a value to see the result.";return}
+const k=v<r[1]?["above","Below usual range",r[3]]:v>r[2]?["high","Above usual range",r[4]]:["fair","In the usual range","Nothing unusual for this value."];
+$("rres").innerHTML=`<span class="tag ${k[0]}">${k[1]}</span> <b>${v}</b><p style="margin:8px 0 0">${k[2]}${k[0]=="fair"?"":" Show this report to your doctor."}</p>`}
+$("rt").onchange=$("rv").oninput=rep;
+
+const F=[["Heart attack","<p>Signs: pressure or pain in the chest that may spread to the arm, jaw or back, with sweating, breathlessness or nausea.</p><ol><li>Call 112 or 108 at once.</li><li>Sit the person down, keep them still and calm, and loosen tight clothing.</li><li>If they are awake, can swallow and are not allergic, they can chew one regular aspirin.</li><li>Do not let them walk or drive.</li></ol><h3 style='font-size:18px;margin:14px 0 6px;color:var(--ink)'>If they stop responding and are not breathing normally, start CPR</h3><ol><li>Shout and tap their shoulders to check. Ask someone to call 112 or 108 and to bring an AED if one is nearby.</li><li>Place the heel of one hand on the centre of the chest and the other hand on top, with arms straight.</li><li>Push hard and fast, about 5 cm deep, 100 to 120 times a minute, letting the chest rise fully each time.</li><li>Do not stop until help arrives or they start breathing. If an AED comes, follow its voice prompts.</li></ol><button id='bp'>Sound the beat</button><p class='note'>Learn CPR properly on a certified first-aid course.</p>"],["Burns","Cool the burn under running tap water for 20 minutes. Remove rings and tight items near it. Cover loosely with a clean non-fluffy cloth or cling film. Do not use ice, butter or toothpaste. Go to a hospital for large, deep or face burns."],["Nosebleed","Sit up and lean forward. Pinch the soft part of the nose for 10 to 15 minutes and breathe through the mouth. Seek care if it lasts over 20 minutes or follows a head injury."],["Snake bite","Keep the person calm and still, and keep the bitten limb still. Remove rings and tight items. Get to a hospital at once, as antivenom is given there. Do not cut the wound, suck it, apply ice or tie a tight band."],["Drowning","Call 112 or 108. Pull the person out only if it is safe for you. If they are not breathing, start CPR if you are trained. If they are breathing, lay them on their side and keep them warm until help comes."],["Choking (adult)","If they can cough, tell them to keep coughing. If they cannot cough, speak or breathe, give up to 5 firm blows between the shoulder blades, then up to 5 abdominal thrusts (stand behind, fist above the navel, pull sharply in and up). Alternate until the object comes out. Call 112 or 108. If they become unresponsive, start CPR."],["Fainting","Lay the person flat and raise their legs about 30 cm. Loosen tight clothing and make sure they are breathing. They should recover within a minute. If not, or if they were hurt in the fall, call 112 or 108."],["Seizure","Clear the space and cushion the head. Do not hold the person down or put anything in their mouth. Note the time. When the shaking stops, turn them onto their side. Call 108 if it lasts over 5 minutes, repeats, or it is their first seizure."]];
+$("fa").innerHTML=F.map((f,i)=>`<details${i?"":" open"}><summary>${f[0]}</summary><div class="fb">${f[1]}</div></details>`).join("");
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let E=[["2004-03-12","Vaccination","BCG, OPV 0 and Hepatitis B at birth"],["2004-04-23","Vaccination","DPT, OPV and Hepatitis B, 6-week dose"],["2007-08-20","Illness","Typhoid fever, treated at home"],["2012-01-15","Allergy","Rash after a penicillin course"],["2019-06-10","Surgery","Appendix removal, 2 days in hospital"],["2025-09-02","Lab report","Hemoglobin 12.8 g/dL, in range"]];
+try{const s=localStorage.getItem("mc_rec");if(s)E=JSON.parse(s)}catch(e){}
+const age=(b,d)=>{const x=new Date(b),y=new Date(d);let m=(y.getFullYear()-x.getFullYear())*12+y.getMonth()-x.getMonth();if(y.getDate()<x.getDate())m--;return m<1?"Newborn":m<12?m+" months":Math.floor(m/12)+" yrs"+(m%12?" "+m%12+" mo":"")};
+function tl(){const b=$("pd").value;if(!b){$("tl").textContent="Enter a date of birth to see the timeline.";return}
+const L=[[b,"Birth","Born"],...E].sort((x,y)=>x[0]<y[0]?-1:x[0]>y[0]?1:0);
+$("tl").innerHTML=`<h3 style="margin-bottom:14px">${esc($("pn").value||"Patient")}'s timeline</h3><div class="tl">`+L.map(e=>`<div class="te"><b>${age(b,e[0])}</b> <span class="k">${e[1]}</span><div class="meta">${new Date(e[0]).toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"})}</div><div>${esc(e[2])}</div></div>`).join("")+"</div>"}
+$("ed").valueAsDate=new Date();
+$("ea").onclick=()=>{const d=$("ed").value,t=$("et").value.trim();if(!d||!t)return;E.push([d,$("ek").value,t]);try{localStorage.setItem("mc_rec",JSON.stringify(E))}catch(e){}$("et").value="";tl()};
+$("pn").oninput=$("pd").onchange=tl;$("ep").onclick=()=>print();tl();
+
+let bt=null,ac;$("bp").onclick=()=>{if(bt){clearInterval(bt);bt=null;$("bp").textContent="Sound the beat";return}
+ac=ac||new(window.AudioContext||window.webkitAudioContext)();const k=()=>{const o=ac.createOscillator(),g=ac.createGain();o.frequency.value=880;g.gain.value=.15;o.connect(g);g.connect(ac.destination);o.start();o.stop(ac.currentTime+.06)};k();bt=setInterval(k,545);$("bp").textContent="Stop the beat"};
+
+$("ht").innerHTML=$("test").innerHTML;
+function prov(){const t=T[$("ht").value],p=+$("hp").value;if(!p){$("hres").textContent="Enter your price to see where you stand.";return}
+const o=C.filter(c=>!t[2]||c[4]).map(c=>t[1]*c[1]),rank=o.filter(x=>x<p).length+1,g=tg(p/t[1]);
+$("hres").innerHTML=`<span class="tag ${g[0]}">${g[1]}</span> You would rank <b>${rank} of ${o.length+1}</b> on price among centres near you.<p style="margin:8px 0 0">${g[0]=="fair"?"You qualify for the fair-price badge.":"Prices within 15% of the benchmark earn the fair-price badge."} Benchmark: ${inr(t[1])}.</p>`}
+$("ht").onchange=$("hp").oninput=prov;prov();
+
+$("th").onclick=()=>{const r=document.documentElement;r.dataset.theme=getComputedStyle(r).getPropertyValue("--bg").trim()=="#0c0d24"?"light":"dark"};
+const hh=document.querySelector(".hero h1");hh.innerHTML=hh.textContent.split(" ").map((w,i)=>`<span class="w" style="--i:${i}">${w}</span>`).join(" ");
+document.querySelector(".hero").insertAdjacentHTML("afterbegin",'<i class="orb o1"></i><i class="orb o2"></i><svg class="hb" viewBox="0 0 560 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0 70H150L170 70L185 25L205 105L225 45L240 70H330L350 70L365 30L385 100L402 55L415 70H560"/></svg>');
+document.querySelectorAll(".lead,.stats,.sos,.hero .panel").forEach((e,i)=>{e.classList.add("gs");e.style.setProperty("--g",i)});
+if("IntersectionObserver" in window){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll("section").forEach(e=>{e.classList.add("rv");io.observe(e)})}
+addEventListener("pointermove",e=>{document.body.style.setProperty("--mx",e.clientX+"px");document.body.style.setProperty("--my",e.clientY+"px")});
+const up=document.createElement("button");up.id="up";up.setAttribute("aria-label","Back to top");up.innerHTML='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';document.body.appendChild(up);
+up.onclick=()=>scrollTo({top:0,behavior:"smooth"});
+addEventListener("scroll",()=>up.classList.toggle("on",scrollY>500),{passive:true});
+requestAnimationFrame(()=>document.body.classList.add("go"));
+;(()=>{
+const XT=["Lab report","X-ray or scan","Bill","Prescription","Discharge summary","Insurance or ID","Other"];
+let D=[],idb,xq="All";
+const xe=t=>String(t).replace(/[&<>"']/g,c=>"&#"+c.charCodeAt(0)+";"),
+fmt=d=>new Date(d).toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"}),
+st=()=>idb.transaction("d","readwrite").objectStore("d"),
+xput=x=>{try{st().put(x)}catch(e){}},xdel=i=>{try{st().delete(i)}catch(e){}},
+sv=()=>{try{localStorage.setItem("mc_rec",JSON.stringify(E))}catch(e){}},
+xrd=f=>new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(r.result);r.onerror=no;r.readAsDataURL(f)}),
+nf=d=>d.m&&!/^image/.test(d.m),
+xim=(d,a)=>nf(d)?`<span class="fi">${xe((d.fn||"").split(".").pop().slice(0,4).toUpperCase()||"FILE")}</span>`:`<img src="${d.u}" alt="${a}" loading="lazy">`,
+xz=f=>new Promise((ok,no)=>{const u=URL.createObjectURL(f),i=new Image();
+i.onload=()=>{const s=Math.min(1,1400/Math.max(i.width,i.height)),c=document.createElement("canvas");c.width=Math.round(i.width*s);c.height=Math.round(i.height*s);
+const g=c.getContext("2d");g.fillStyle="#fff";g.fillRect(0,0,c.width,c.height);g.drawImage(i,0,0,c.width,c.height);URL.revokeObjectURL(u);ok(c.toDataURL("image/jpeg",.78))};
+i.onerror=()=>{URL.revokeObjectURL(u);no()};i.src=u});
+function xr(){
+const L=D.filter(d=>xq=="All"||d.t==xq).sort((a,b)=>a.d<b.d?1:a.d>b.d?-1:b.id-a.id),
+bills=D.filter(d=>d.t=="Bill").reduce((s,d)=>s+(d.a||0),0),last=D.map(d=>d.d).sort().pop();
+$("xsum").innerHTML=`<span><b>${D.length}</b>documents</span>`+(bills?`<span><b>${inr(bills)}</b>in bills</span>`:"")+(last?`<span><b>${fmt(last)}</b>latest document</span>`:"");
+$("xfc").innerHTML=["All",...XT].map(t=>`<button class="fc" aria-pressed="${t==xq}" data-f="${t}">${t}${t=="All"?"":" ("+D.filter(d=>d.t==t).length+")"}</button>`).join("");
+$("xg").innerHTML=L.length?L.map(d=>`<button class="dd" data-o="${d.id}">${xim(d,xe(d.t+(d.n?": "+d.n:"")))}<span class="l"><span class="k">${d.t}</span><span class="l meta">${fmt(d.d)}${d.a?", "+inr(d.a):""}</span>${d.n?`<span class="l">${xe(d.n)}</span>`:""}</span></button>`).join(""):`<p class="sum">${D.length?"Nothing of this type yet.":"No documents yet. Add a photo of a report, X-ray or bill and it appears here and in the timeline."}</p>`}
+function xo(id){const d=D.find(x=>x.id==id),m=$("xlb");if(!d)return;
+m.innerHTML=`${nf(d)?(/\.pdf$/i.test(d.fn||"")?`<iframe src="${d.u}" title="${xe(d.fn)}"></iframe>`:"")+`<p><a href="${d.u}" download="${xe(d.fn||"file")}" target="_blank" rel="noopener">Open or save ${xe(d.fn||"file")}</a></p>`:`<img src="${d.u}" alt="${xe(d.t)}">`}<p style="margin:0 0 12px"><span class="k">${d.t}</span> ${fmt(d.d)}${d.a?", "+inr(d.a):""}${d.n?"<br>"+xe(d.n):""}</p><div style="display:flex;gap:8px"><button class="p" id="xc">Close</button><button id="xx">Delete</button></div>`;
+$("xc").onclick=()=>m.close();
+$("xx").onclick=function(){if(this.dataset.s){D=D.filter(x=>x.id!=id);xdel(id);E=E.filter(e=>e[3]!=id);sv();m.close();xr();tl();return}this.dataset.s=1;this.textContent="Tap again to delete"};
+m.showModal()}
+$("xlb").onclick=e=>{if(e.target==e.currentTarget)e.currentTarget.close()};
+$("xfc").onclick=e=>{const b=e.target.closest("[data-f]");if(b){xq=b.dataset.f;xr();$("xfc").querySelector('[aria-pressed="true"]').focus()}};
+$("xg").onclick=e=>{const b=e.target.closest("[data-o]");if(b)xo(+b.dataset.o)};
+$("xt").onchange=()=>{$("xaw").hidden=$("xt").value!="Bill"};
+$("xd").valueAsDate=new Date();
+$("xs").onclick=async()=>{
+const fs=[...$("xi").files],d=$("xd").value,t=$("xt").value,m=$("xm");
+if(!d||!fs.length){m.textContent=!d?"Choose the date on the document.":"Choose at least one photo.";return}
+m.textContent="Saving...";let n=0;
+for(const f of fs){try{const img=f.type.startsWith("image/");if(!img&&(f.size>8e6||!/\.(pdf|docx?|txt)$/i.test(f.name)))throw 0;const x={id:Date.now()+n,t,d,n:$("xn").value.trim(),a:t=="Bill"?+$("xa").value||0:0,u:img?await xz(f):await xrd(f),m:img?"image/jpeg":f.type||"application/octet-stream",fn:f.name};
+D.push(x);xput(x);E.push([d,t,(x.n||"Document")+" (file added)",x.id]);n++}catch(e){}}
+sv();$("xi").value="";$("xn").value="";$("xa").value="";xq="All";
+m.textContent=n?n+(n>1?" documents":" document")+" saved to the record.":"Could not save that file. Use a photo, or a PDF, Word or text file under 8 MB.";
+xr();tl()};
+xr();
+new Promise(r=>{try{const q=indexedDB.open("mc_docs",1);q.onupgradeneeded=()=>q.result.createObjectStore("d",{keyPath:"id"});
+q.onsuccess=()=>{idb=q.result;const g=idb.transaction("d").objectStore("d").getAll();g.onsuccess=()=>{D=g.result||[];r()};g.onerror=()=>r()};q.onerror=()=>r()}catch(e){r()}}).then(()=>{if(!idb)$("xm").textContent="Photo storage is off in this browser mode, so documents last only until you close the page.";xr()});
+})();
+;(()=>{
+const LC={Kanpur:"Swaroop Nagar,Kakadeo,Govind Nagar,Barra,Kidwai Nagar,Arya Nagar,Pandu Nagar,Rawatpur,Naubasta,Panki,Jajmau,Harsh Nagar,Tilak Nagar,Vikas Nagar,Chakeri,Sharda Nagar",Lucknow:"Indira Nagar,Aliganj,Mahanagar,Jankipuram,Chinhat,Rajajipuram,Ashiyana,Kaiserbagh,Vikas Nagar,Faizabad Road,Telibagh,Sushant Golf City,Alambagh,Krishna Nagar,Daliganj,Aminabad",Delhi:"Rohini,Pitampura,Janakpuri,Laxmi Nagar,Saket,Vasant Kunj,Mayur Vihar,Okhla,Shalimar Bagh,Paschim Vihar,Punjabi Bagh,Hauz Khas,Patparganj,Narela,Najafgarh,Ashok Vihar",Mumbai:"Borivali,Kurla,Chembur,Goregaon,Mulund,Malad,Ghatkopar,Worli,Colaba,Vashi,Dahisar,Sion,Bhandup,Juhu,Kandivali,Versova"},
+K=[["Multispeciality Hospital","General medicine, Cardiology, Orthopaedics",1,1.15,4.4],["Clinic","General medicine, Paediatrics",0,.7,4.1],["Eye Clinic","Ophthalmology, General medicine",0,.85,4.2],["Heart Centre","Cardiology, General medicine",1,1.2,4.5],["Women and Child Hospital","Gynaecology, Paediatrics",1,1,4.3],["Bone Clinic","Orthopaedics, General medicine",0,.9,4.2],["Skin Clinic","Dermatology, ENT",0,.75,4],["Neuro Centre","Neurology, General medicine",1,1.3,4.4]],
+B={Kanpur:500,Lucknow:500,Delhi:800,Mumbai:900};
+for(const c in LC){const l=LC[c].split(",");for(let i=0;HH[c].length<20&&i<l.length;i++){const k=K[i%8];HH[c].push([l[i]+" "+k[0],Math.round(B[c]*k[3]*(.85+i*7%30/100)/10)*10,8+i*13%40,k[2],k[1],+Math.min(4.8,k[4]+(i*7%5-2)/10).toFixed(1),k[0]])}}
+setCity(city);dir();
+[["Cardiologist=Fast or irregular heartbeat|palpitations racing;Swollen ankles or feet|edema leg swelling;Leg pain when walking|claudication;High blood pressure reading|hypertension bp"],
+["Pulmonologist=Wheezing|asthma whistling;!Coughing up blood|hemoptysis;Cough lasting over 3 weeks|chronic tb;Snoring or pauses in breathing|sleep apnea"],
+["Neurologist=Dizziness or spinning|vertigo giddy;Numbness or tingling|pins needles;Tremor or shaking|trembling hands;Memory loss|forgetful dementia;Migraine|one sided headache aura;!Stiff neck with fever|meningitis"],
+["Gastroenterologist=Heartburn or acidity|reflux gas burning;Constipation|hard stools;Bloating or gas|flatulence indigestion;Loss of appetite|not hungry;Yellow eyes or skin|jaundice;!Severe stomach pain|appendicitis colic;Blood in stool|piles bleeding;Difficulty swallowing|dysphagia"],
+["General physician=Tiredness or weakness|fatigue low energy;Weight loss without trying|losing weight;Weight gain|obesity;Night sweats|sweating;Excess thirst or urination|diabetes sugar;Swollen glands|lymph lump;Loss of smell or taste|covid;Muscle cramps|spasm;Chills|shivering"],
+["ENT specialist=Ear pain|earache;Hearing loss|deaf;Ringing in ears|tinnitus;Blocked nose|sinus congestion;Nosebleed|epistaxis;Hoarse voice|voice change;Tonsil pain|tonsillitis"],
+["Ophthalmologist=Red or itchy eyes|conjunctivitis;Blurred vision|poor eyesight;!Sudden loss of vision|blind;Eye pain|;Watery eyes|"],
+["Dentist=Toothache|tooth cavity;Bleeding gums|gum swelling;Mouth ulcers|canker sore"],
+["Dermatologist=Hair loss|baldness;Acne|pimples;Dry or flaky skin|eczema;Skin patches|ringworm fungal;Hives|urticaria allergy;Itchy scalp|dandruff"],
+["Orthopaedic doctor=Knee pain|joint arthritis;Neck pain|cervical stiff;Shoulder pain|frozen;Joint swelling|arthritis gout;Sprain or twisted ankle|sprain;Heel pain|plantar"],
+["Gynaecologist=Irregular periods|menstrual;Painful periods|cramps;Heavy periods|menorrhagia;!Bleeding during pregnancy|pregnant spotting;Vaginal discharge or itching|white discharge"],
+["Urologist=Burning when passing urine|uti;Frequent urination|;Blood in urine|hematuria;Kidney stone pain|renal colic;Difficulty passing urine|prostate"],
+["Psychiatrist or counsellor=Anxiety or panic|worry nervous;Low mood|sad depressed hopeless;Trouble sleeping|insomnia;Constant stress|overwhelmed"],
+["Endocrinologist=Neck swelling|thyroid goitre;Feeling too hot or too cold|thyroid"]].forEach(([g])=>{const[sp,r]=g.split("=");r.split(";").forEach(y=>{const[n,k]=y.split("|"),u=n[0]=="!";S.push([u?n.slice(1):n,sp,+u,k||""])})});
+const MD=["Paracetamol|Dolo 650, Crocin|Fever, headache, body ache|OTC|Stay within the daily limit on the label. Ask a doctor first if you have liver disease.|Pain relief","Ibuprofen|Brufen, Combiflam|Pain, swelling, fever|OTC|Take after food. Avoid with stomach ulcers or kidney disease.|Pain relief","Diclofenac|Voveran|Joint and muscle pain|Rx|Can irritate the stomach. Not for people with heart or kidney problems unless advised.|Pain relief","Cetirizine|Cetzine, Okacet|Allergy, sneezing, itching|OTC|May cause sleepiness. Avoid driving after taking it.|Cold and allergy","Levocetirizine|Levocet, Xyzal|Allergy, runny nose, hives|OTC|May cause sleepiness.|Cold and allergy","Montelukast|Montair|Allergic asthma and nose allergy|Rx|Report mood changes or sleep problems to your doctor.|Cold and allergy","Ambroxol|Ambrodil|Cough with phlegm|OTC|Drink plenty of water. See a doctor if cough lasts over a week.|Cold and allergy","ORS|Electral|Loose motions, vomiting, dehydration|OTC|Mix only as directed in clean water. See a doctor if no better in a day.|Acidity and stomach","Pantoprazole|Pan 40, Pantocid|Acidity, reflux, ulcers|Rx|Usually taken before food. Long use needs a doctor's review.|Acidity and stomach","Antacid gel|Digene, Gelusil|Heartburn, indigestion|OTC|Not for long-term use. See a doctor if acidity is frequent.|Acidity and stomach","Domperidone|Domstal|Nausea and vomiting|Rx|Use only as prescribed.|Acidity and stomach","Metformin|Glycomet, Glucophage|Type 2 diabetes|Rx|Never stop or change the dose without your doctor. Take with meals.|Diabetes care","Glimepiride|Amaryl|Type 2 diabetes|Rx|Can cause low sugar. Keep something sweet with you.|Diabetes care","Amlodipine|Amlong, Norvasc|High blood pressure|Rx|Can cause ankle swelling. Do not stop suddenly.|Blood pressure","Telmisartan|Telma|High blood pressure|Rx|Not safe in pregnancy. Do not stop suddenly.|Blood pressure","Atorvastatin|Atorva, Lipitor|High cholesterol|Rx|Report unexplained muscle pain to your doctor.|Blood pressure","Amoxicillin|Mox, Novamox|Bacterial infections|Rx|Finish the course your doctor gives. Tell them about any penicillin allergy.|Antibiotics (prescription only)","Azithromycin|Azithral|Bacterial infections of chest, throat, skin|Rx|Finish the course your doctor gives.|Antibiotics (prescription only)","Salbutamol inhaler|Asthalin|Asthma and wheeze relief|Rx|If you need it more often than usual, see a doctor.|Cold and allergy","Vitamin D3|Calcirol, D-Rise|Low vitamin D, bone health|OTC|Too much can harm. Take as advised.|Vitamins and supplements","Iron and folic acid|Autrin, Fefol|Anaemia|OTC|May darken stools. Keep away from children.|Vitamins and supplements","Calcium|Shelcal|Bone health|OTC|Take as advised. Check with a doctor if you have kidney stones.|Vitamins and supplements","Vitamin B12|Methylcobalamin, Nurokind|Tingling, B12 deficiency|OTC|Have levels checked if symptoms continue.|Vitamins and supplements","Povidone iodine|Betadine|Cleaning cuts and wounds|OTC|For skin only. Deep or dirty wounds need a doctor.|First aid","Clotrimazole|Candid|Fungal skin infections, ringworm|OTC|Use as directed. See a doctor if no better in two weeks.|Skin care"].map(x=>x.split("|"));
+function ms(){const w=$("mq").value.toLowerCase().split(/\s+/).filter(Boolean),el=$("mr"),g="<p class='sum' style='grid-column:1/-1;margin:0'>";
+if(!w.length){el.innerHTML=g+MD.length+" common medicines. Type a medicine, brand or problem, e.g. Dolo, acidity, diabetes.</p>";return}
+const r=MD.filter(m=>w.every(x=>m.join(" ").toLowerCase().includes(x)));
+el.innerHTML=r.length?r.map(m=>`<div><b>${ex(m[0])} <span class="tag ${m[3]=="OTC"?"fair":"above"}">${m[3]=="OTC"?"No prescription":"Prescription"}</span></b><span>Brands: ${ex(m[1])}<br>Used for: ${ex(m[2])}<br>${ex(m[4])}</span></div>`).join(""):g+"No match. Try the generic name or the problem it treats.</p>"}
+$("mq").oninput=ms;ms();
+})();
+;(()=>{
+const LIVE=false,SD={Kanpur:"0512",Lucknow:"0522",Delhi:"011",Mumbai:"022"},
+DN="Anita Verma,Rajesh Gupta,Sunita Mishra,Amit Srivastava,Priya Sharma,Vikram Singh,Neha Agarwal,Manoj Tiwari,Kavita Joshi,Sanjay Yadav,Farah Khan,Rohit Mehta,Deepa Nair,Arun Pandey,Meera Iyer,Imran Ali".split(","),
+SL=[[9,13],[10,14],[16,20],[17,21],[9,17],[8,12],[14,18]],DY=[[1,2,3,4,5,6],[1,3,5],[2,4,6],[1,2,3,4,5]],DL=["Mon to Sat","Mon, Wed, Fri","Tue, Thu, Sat","Mon to Fri"],
+hs=t=>{let n=7;for(const c of t)n=(n*31+c.charCodeAt(0))%1000003;return n},tm=t=>(t%12||12)+(t<12?" am":" pm"),
+dr=h=>h[4].split(", ").map(s=>{const n=hs(h[0]+s);return{s,d:"Dr. "+DN[n%16],y:(n>>4)%4,t:SL[(n>>2)%7]}}),
+ok=h=>{const d=new Date(),t=d.getHours()+d.getMinutes()/60;return dr(h).some(x=>DY[x.y].includes(d.getDay())&&t>=x.t[0]&&t<x.t[1])},
+pl=h=>LIVE?`<a href="tel:${h[7].replace(/\s/g,"")}">${h[7]}</a>`:`<b>${h[7]}</b> <span class="sum">(sample number)</span>`,CT=new Map();
+for(const c in HH)HH[c].forEach(h=>{const w=c=="Kanpur"||c=="Lucknow"?1e6:1e7;h[7]=SD[c]+" "+(2*w+hs(h[0]+c)*97%w);CT.set(h,c)});
+$("hc").innerHTML='<option value="">All cities</option>'+Object.keys(HH).map(c=>`<option${c==city?" selected":""}>${c}</option>`).join("");
+dir=function(){const c=$("hc").value,q=$("hq").value.toLowerCase().trim(),cur=$("fs").value,e=$("fe").value=="1",f=$("hd").value,o=$("ho").value,
+pool=c?HH[c]:Object.values(HH).flat();
+$("fs").innerHTML='<option value="">All specialities</option>'+[...new Set(pool.flatMap(h=>h[4].split(", ")))].sort().map(x=>`<option${x==cur?" selected":""}>${x}</option>`).join("");
+const L=pool.filter(h=>(!cur||h[4].includes(cur))&&(!e||h[3])&&(!f||(f=="n"?ok(h):dr(h).some(x=>x.t[1]>17)))&&(!q||(h[0]+" "+CT.get(h)+" "+h[4]+" "+h[6]+" "+dr(h).map(x=>x.d).join(" ")).toLowerCase().includes(q)));
+L.sort((a,b)=>o=="p"?a[1]-b[1]:o=="r"?b[5]-a[5]:a[2]-b[2]);
+$("fc").textContent=L.length+" found"+(c?" in "+c+". Consultation benchmark "+inr(CB[c])+" (sample).":" across all cities.")+(L.length>30?" Showing the first 30. Narrow your search to see more.":"");
+$("hl").innerHTML=L.slice(0,30).map(h=>{const k=CT.get(h),g=tg(h[1]/CB[k]),a=ok(h);return `<div><b>${h[0]}</b><span>${k}, ${h[6]}, rating ${h[5].toFixed(1)}<br>${h[4]}<br>${inr(h[1])} <span class="tag ${g[0]}">${g[1]}</span> <span class="tag ${a?"fair":"above"}">${a?"Doctor available now":"No OPD now"}</span><br>About ${h[2]} min away${h[3]?", emergency care":""}<br>Phone: ${pl(h)}<br><a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(h[0]+" "+k)}" target="_blank" rel="noopener">Directions</a><details><summary>Doctors and timings</summary>${dr(h).map(x=>`${x.s}: ${x.d}, ${DL[x.y]}, ${tm(x.t[0])} to ${tm(x.t[1])}`).join("<br>")}</details></span></div>`}).join("")||"<p class='sum'>No match. Try another city, speciality or spelling.</p>"};
+$("hq").oninput=$("hc").onchange=$("ho").onchange=$("hd").onchange=$("fs").onchange=$("fe").onchange=dir;
+$("cs").addEventListener("change",()=>{$("hc").value=city;dir()});
+setCity(city);dir();guide();
+})();
+</script>
+</body>
+</html>
